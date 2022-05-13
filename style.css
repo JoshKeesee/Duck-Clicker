@@ -1,0 +1,370 @@
+@keyframes spin {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+@keyframes breathe {
+  from {font-size: 300%;}
+  to {font-size: 400%;}
+  25% {transform: rotate(5deg);}
+  50% {transform: rotate(-5deg);}
+  75% {transform: rotate(15deg);}
+  100% {transform: rotate(-15deg);}
+}
+@keyframes rotate {
+  from {transform: rotate(10deg)}
+  to {transform: rotate(-10deg)}
+}
+@keyframes close {
+  0% {width: 70%; height: 80px;}
+  99% {width: 40px; height: 80px;}
+  100% {width: 0px; height: 0px; margin-left: 10%;}
+}
+@keyframes popup {
+  10% {width: 80px; height: 80px;}
+  25% {width: 70%; height: 80px;}
+  100% {width: 70%; height: 80px;}
+}
+@keyframes close2 {
+  from {transform: rotate(0deg);}
+  0% {border-radius: 10px; width: 90px; height: 90px;}
+  50% {width: 90px; height: 90px; border-radius: 360px; transform: rotate(-360deg); background-size: 90px auto;}
+  70% {width: 0px; height: 0px; transform: rotate(-360deg); background-size: 0px auto;}
+}
+@keyframes popup2 {
+  10% {width: 90px; height: 90px;}
+  25% {border-radius: 10px; transform: rotate(360deg);}
+  100% {border-radius: 10px; width: 90px; height: 90px; transform: rotate(360deg);}
+}
+.comments {
+  color: red;
+}
+.name {
+  font-size: 60px;
+  color: #fff;
+  text-align: center;
+  left: 10%;
+  right: 10%;
+  z-index: -1;
+  position: absolute;
+  text-shadow: 0 0 10px blue;
+  letter-spacing: 5px;
+  top: 0px;
+}
+.popupbottom {
+  position: absolute;
+  top: 15px;
+  margin-left: 8%;
+  z-index: 9997;
+  width: 0px;
+  height: 0px;
+  border-radius: 360px;
+  background: lightgray;
+  animation: popup 4s 1, 0.3s close 4s;
+}
+.popuptop {
+  position: absolute;
+  top: 10px;
+  margin-left: 7%;
+  z-index: 9999;
+  width: 0px;
+  height: 0px;
+  border: 4px black;
+  border-radius: 360px;
+  vertical-align: middle;
+  background: #3770D7 url("achievement.png") center;
+  background-repeat: no-repeat;
+  background-size: 90px auto;
+  animation: popup2 4s 1, 2s close2 4s;
+}
+#achtext {
+  position: absolute;
+  text-align: center;
+  top: 40px;
+  z-index: 9998;
+  color: white;
+  font-size: 125%;
+  margin-left: 100px;
+}
+#duck {
+  width: 190px;
+  transition: 0.7s;
+  border-radius: 50%;
+  z-index: -2;
+  animation: spin linear;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  box-shadow: 0 0 40px yellow;
+  margin: 20px;
+}
+#duck:hover {
+  width: 210px;
+  box-shadow: 0 0 50px yellow;
+  cursor: pointer;
+  border-radius: 40%;
+}
+#score {
+  font-size: 70px;
+  animation: breathe 1s infinite alternate ease-in-out;
+  cursor: default;
+  color: gold;
+}
+.egg {
+  transition: 0.5s;
+  width: 80px;
+}
+.egg:hover {
+  width: 100px;
+}
+.button {
+  border: none;
+  box-shadow: 0 0 20px gold;
+  background-color: gold;
+  transition: 0.5s;
+  color: black;
+  font-size: 15px;
+  width: auto;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px;
+  overflow-x: hidden;
+  animation: rotate 0.8s infinite alternate ease-in-out;
+}
+.button:hover {
+  background-color: dimgray;
+  box-shadow: 0 0 100px white;
+  color: white;
+  width: auto;
+}
+label {
+  font-size: 30px;
+  color: auto;
+}
+body {
+  overflow-x: hidden;
+}
+hr {
+  width: max(500px);
+  height: 10px;
+  border: none;
+  background-color: gold;
+  border-radius: 10px;
+}
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #d3d3d3;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+span {
+  transition: 0.5s;
+  color: gold;
+}
+span:hover {
+  color: gray;
+}
+.store {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #d3d3d3;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+.store a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.store a:hover {
+  color: #f1f1f1;
+}
+.store .closebtn {
+  position: absolute;
+  top: 0;
+  left: 120px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+#storeimg {
+    position: relative;
+}
+#storeimg img {
+  position: absolute;
+  top: -50px;
+  right: -8px;
+  width: 50px;
+  height: auto;
+  transition: 0.5s;
+  cursor: pointer;
+  border-radius: 20px;
+}
+#storeimg img:hover {
+  right: 0px;
+  width: 60px;
+}
+* {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    user-select: none;
+}
+/* music */
+.change {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.change input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.music {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.music:before {
+  position: absolute;
+  content: "";
+  height: 40px;
+  width: 40px;
+  left: 0px;
+  bottom: 4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  box-shadow: 0 0px 15px #2020203d;
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+input:checked + .music {
+  background-color: #2196f3;
+}
+input:focus + .music {
+  box-shadow: 0 0 1px #2196f3;
+}
+input:checked + .music:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.music.round {
+  border-radius: 34px;
+}
+.music.round:before {
+  border-radius: 50%;
+}
+/* theme */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 40px;
+  width: 40px;
+  left: 0px;
+  bottom: 4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  box-shadow: 0 0px 15px #2020203d;
+  background: white url('https://i.ibb.co/7JfqXxB/sunny.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+input:checked + .slider {
+  background-color: #2196f3;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background: white url('https://i.ibb.co/FxzBYR9/night.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}

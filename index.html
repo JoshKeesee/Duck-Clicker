@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="?viewport" content="width=device-width">
+    <link rel="icon" type="image/x-icon" href="duck.png">
+    <title>Duck Clicker</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+  </head>
+
+  <body id='background' style='background: white;' onload='autoclicker(); update(); displayNum(); check(); updatePower(); checkAch(); addEvent(); load(); checkIfBigger(); infinity();' onunload='save();'>
+    <center><div class='name'>Duck Clicker</div></center>
+    <div id="mySidenav" class="sidenav">
+      <a style='cursor: pointer;' class="closebtn" onclick="closeNav()" tabindex='-1'>&times;</a>
+      <center><a>Music</a></center>
+      <center><label class="change">
+        <input onclick='toggle()' type="checkbox">
+        <span class="music round"></span>
+      </label></center>
+      <center><a>Theme</a></center>
+      <center><label class="switch">
+        <input onclick='changeTheme()' type="checkbox" id='theme'>
+        <span class="slider round"></span>
+      </label></center>
+      <hr style='width: 200px;'>
+      <a>Made by Joshua Keesee</a>
+      <a style='color: red; cursor: pointer;' onclick='reset();'>Reset</a>
+      <a id='tools' class="fa" onclick='tools()' style='cursor: default;'></a>
+    </div>
+    <span style="font-size: 30px; cursor: pointer;" onclick="openNav(); closeStore();">&#9776;</span>
+    <div id='top'></div>
+    <div id='bottom'></div>
+    <label id='achtext' style='margin-left: 18%;'></label>
+    <div id="myStore" class='store'>
+      <a href="javascript:void(0)" class="closebtn" onclick="closeStore()">&times;</a>
+      <a id='duckCoins'>DuckCoins: 0</a>
+      <a id='amount'>Ducks needed: </a>
+      <hr style='width: 200px;'>
+      <button class='button' type='button' onclick='upgradeAuto()' tabindex='-1'>Upgrade AutoDucks⬆</button>
+      <button class='button' type='button' onclick='addMoreAutoDucks()' tabindex='-1'>Add More AutoDucks⬆</button>
+      <center><img class='egg' src="goldenegg.png" style='cursor: pointer;' onclick='goldenDuck();'></center>
+      <a id='goldenegg'>Golden Duck: 20 DuckCoins</a>
+    </div>
+    <div id='storeimg' class='storeimg'>
+      <img src="store.png" class="storeimg" onclick='closeNav(); openStore();'/>
+    </div>
+    <center><img id='duck' src="duckwalking.gif" onclick='add_to_score();' id='img'></center>
+    <center><div id='score'>Ducks: 0</div></center>
+    <center><label id='power'>Ducks per Click:</label></center>
+    <center><label id='autoclicker'>Ducks per Second per AutoDuck:</label></center>
+    <center><label id='autoducks'>Number of Autoducks:</label></center>
+    <hr>
+    <center><label id='autoDuckUpgrade'>Next AutoDuck Upgrade:</label></center>
+    <center><label id='autoduckCost'>Next AutoDuck Cost:</label></center>
+    <script>
+let s = 0;
+let score = s;
+let power = 1;
+let p = power;
+let autoclickers = 0;
+let autoUpgrade = 50;
+let ac = autoclickers;
+let aU = autoUpgrade;
+let percent = 10/100;
+let AutoDucks = 1;
+let AMAD = 1000000;
+let scoreDis = 0;
+let powerDis;
+let acDis;
+let adDis;
+let auDis;
+let amadDis;
+let audio = new Audio();
+let music = 1;
+let dev = 'false';
+let max = 1000000;
+let theme = 1;
+let duckcoins = 0;
+let total = 0;
+let notifications = 1;
+let dcCost = 15;
+let achScoreTotal = 1;
+let achAutoTotal = 1;
+let achAutoDucks = 2;
+let achievements = [];
+let achDis = "";
+let devAch = 0;
+let autoclick = 0;
+let data = [];
+function updatePower() {
+  if (autoclickers >= 10) {
+    p = autoclickers * (1/10);
+    power = Math.round(p * 10) / 10;
+  } else {
+    power = 1;
+  }
+  setTimeout(updatePower, 0);
+}
+function add_to_score() {
+  s = s + power;
+  score = Math.round(s * 10) / 10;
+  total = total + power;
+}
+function autoclicker() {
+  s = score + ((autoclickers * AutoDucks) / 10);
+  score = Math.round(s * 10) / 10;
+  total = total + ((autoclickers * AutoDucks) / 10);
+  setTimeout(autoclicker, 100);
+}
+function upgradeAuto() {
+  if (score >= autoUpgrade) {
+    s = score - autoUpgrade;
+    score = Math.round(s);
+    if (autoclickers > 0) {
+      ac = autoclickers + ((percent * autoUpgrade) / 10); 
+    } else {
+      ac = 1;
+    }
+    autoclickers = Math.round(ac * 10) / 10;
+    aU = autoUpgrade + ((percent * autoUpgrade) * 1.2);
+    autoUpgrade = Math.round(aU);
+  }
+}
+function addMoreAutoDucks() {
+  if (score >= AMAD) {
+    if (AutoDucks < 8) {
+      s = score - AMAD;
+      score = Math.round(s);
+      AutoDucks = AutoDucks + 1;
+      AMAD = AMAD + ((percent * AMAD) * 50);
+      AMAD = Math.round(AMAD); 
+    } else {
+      alert("Max number of AutoDucks reached.", "warning");
+    }
+  }
+}
+function displayNum() {
+  scoreDis = m(Math.round(score), 1);
+  powerDis = m(power, 1);
+  acDis = m(autoclickers, 1);
+  adDis = m(AutoDucks, 1);
+  amadDis = m(AMAD, 1);
+  auDis = m(autoUpgrade, 1);
+  setTimeout(displayNum, 0);
+}
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+function openStore() {
+  document.getElementById("myStore").style.width = "250px";
+}
+function closeStore() {
+  document.getElementById("myStore").style.width = "0";
+}
+function toggle() {
+  audio.src = "duck.mp3";
+  if (music > 0) {
+    audio.play();
+    audio.loop = true;
+  } else {
+    audio.pause();
+  }
+  music = music * -1;
+}
+function update() {
+  document.getElementById('autoclicker').innerHTML = 'Ducks per Second per AutoDuck: ' + acDis;
+  document.getElementById('score').innerHTML = 'Ducks: ' + scoreDis;
+  document.getElementById('power').innerHTML = 'Ducks per Click: ' + powerDis;
+  document.getElementById('autoDuckUpgrade').innerHTML = 'Next AutoDuck Upgrade: ' + auDis + ' Ducks';
+  document.getElementById('autoducks').innerHTML = 'Number of AutoDucks: ' + adDis;
+  document.getElementById('autoduckCost').innerHTML = 'Next AutoDuck Cost: ' + amadDis + ' Ducks';
+  document.getElementById('amount').innerHTML = 'Ducks needed: ' + m(Math.round(max - total), 2);
+  document.getElementById("duckCoins").innerHTML = "DuckCoins: " + m(duckcoins, 2);
+  document.getElementById('goldenegg').innerHTML = 'Golden Duck: ' + dcCost + ' DuckCoins';
+  if (dev === 'true') {
+    document.getElementById('tools').innerHTML = '&#xf013; Dev Tools';
+    document.getElementById('tools').style.cursor = 'pointer';
+  } else {
+    document.getElementById('tools').innerHTML = '';
+    document.getElementById('tools').style.cursor = 'default';
+  }
+  setTimeout(update, 0);
+}
+function changeTheme() {
+  if (theme === 1) {
+    document.getElementById('background').style.background = "black";
+    document.getElementById('duck').style.background = "black";
+    document.getElementById('background').style.color = "white";
+    document.getElementById('mySidenav').style.background = "#111";
+    document.getElementById('myStore').style.background = "#111";
+    document.getElementById("achtext").style.color = "black";
+    theme = 0;
+  } else {
+  document.getElementById('background').style.background = "white";
+  document.getElementById('background').style.color = "black";
+    document.getElementById('mySidenav').style.background = "#d3d3d3";
+    document.getElementById('myStore').style.background = "#d3d3d3";
+    document.getElementById('duck').style.background = "white";
+    document.getElementById("achtext").style.color = "white";
+    theme = 1;
+  }
+}
+function goldenDuck() {
+  if (duckcoins >= dcCost) {
+    autoclickers = autoclickers * 10;
+    duckcoins = duckcoins - dcCost;
+  } else {
+    alert("Not enough DuckCoins", "warning");
+  }
+}
+function achievement(text) {
+  achActive = 1;
+  document.getElementById("top").className = 'popuptop';
+  document.getElementById("bottom").className = 'popupbottom';
+  document.getElementById("achtext").innerHTML = text;
+  document.getElementById("achtext").style.display = '';
+  setTimeout(hide, 5500);
+  setTimeout(hideText, 4000);
+}
+function hide() {
+  document.getElementById("top").className = '';
+  document.getElementById("bottom").className = '';
+}
+function hideText() {
+  document.getElementById("achtext").innerHTML = '';
+  document.getElementById("achtext").style.display = 'none';
+}
+function checkAch() {
+  if (total != null) {
+    if (dev != 'true') {
+      if (Math.round(score) >= achScoreTotal) {
+        if (score === 1) {
+          achDis = "Achievement: My first duck";
+        } else {
+          achDis = "Achievement: " + m(achScoreTotal, 2) + " ducks";
+        }
+        if (!(achDis in achievements)) {
+          achievement(achDis);
+          achievements.push(achDis);
+          achScoreTotal = achScoreTotal * 100;
+        }
+      }
+      if (autoclickers >= achAutoTotal) {
+        achDis = "Achievement: Upgrade to " + m(achAutoTotal, 2) + " ducks per sec";
+        if (!(achDis in achievements)) {
+          achievement(achDis);
+          achievements.push(achDis);
+          achAutoTotal = achAutoTotal * 10; 
+        }
+      }
+      if (AutoDucks >= achAutoDucks) {
+        achDis = "Achievement: " + m(achAutoDucks, 2) + " AutoDucks";
+        if (!(achDis in achievements)) {
+          achievement(achDis);
+          achievements.push(achDis);
+          achAutoDucks = achAutoDucks * 2;
+        }
+      } 
+    } else if (devAch < 1) {
+      achDis = "Lame Achievement: Hacked Ducks";
+      achievement(achDis);
+      achievements.push(achDis);
+      devAch = 1;
+    }
+    setTimeout(checkAch, 0); 
+  }
+}
+function acClosed() {
+  if (autoclick > 0) {
+    s = score + ((autoclickers * AutoDucks) / 10);
+    score = Math.round(s * 10) / 10;
+    total = total + ((autoclickers * AutoDucks) / 10);
+    setTimeout(acClosed, 100);
+  }
+}
+function setAc() {
+  autoclick = 1;
+}
+function acOpened() {
+  autoclick = 0;
+}
+function addEvent() {
+  window.addEventListener('blur', setAc);
+  window.addEventListener('blur', acClosed);
+  window.addEventListener('focus', acOpened);
+}
+document.addEventListener("keyup", function(event) {
+  if (event.keyCode === 27) {
+    devTools();
+  }
+  if (dev === 'true') {
+    if (event.keyCode === 83) {
+      score = score * 10;
+      total = total * 10;
+    }
+    if (event.keyCode === 65) {
+      if (autoclickers > 0) {
+        autoclickers = autoclickers * 10; 
+      } else {
+        autoclickers = 1;
+      }
+    }
+    if (event.keyCode === 68) {
+      AutoDucks = AutoDucks + 1;
+    }
+    if (event.keyCode === 82) {
+      reset();
+    }
+    if (event.keyCode === 88) {
+      notifications = 0;
+      notificationAlert();
+    }
+  }
+});
+function infinity() {
+  if (scoreDis === 'Infinity') {
+    score = 0;
+    swal("You won the game!", "You achieved Infinite ducks.", "success", {closeOnClickOutside: false,})
+    .then((value) => {
+      reset("no");
+      swal("Game reset", "", "info", {closeOnClickOutside: false,})
+    })
+    }
+  setTimeout(infinity, 0);
+}
+function check() {
+  if (total >= max) {
+    max = max * 1000;
+    duckcoins = duckcoins + 10;
+    if (notifications != 0) {
+      swal(m(max, 2) + ' Ducks collected!', '+10 DuckCoins', "success", {button: "Continue",})
+    .then((value) => {
+       swal("Number of ducks to get increased 1000x", {icon: "warning",})
+    }) 
+  }
+}
+  setTimeout(check, 0);
+}  
+function devTools() {
+  if (dev != 'true') {
+    swal("Do you really want to enable Dev Tools?", {buttons: true, icon: "warning",})
+    .then((enable) => {
+      if (enable) {
+        swal("Dev Tools enabled!", "Oh, and here's a tip.", "success");
+        score = 999999;
+        total = 999999;
+        dev = 'true';
+      }
+    })
+  } else {
+    swal("You are already a developer.",)
+  }
+}  
+function tools() {
+  if (dev === 'true') {
+    swal("Dev Tools Controls", "S: Multiply score by 10; A: Multiply AutoDucks per Second by 10; D: Add another AutoDuck; R: Reset Game; X: Disable DuckCoin notifications;")
+  }
+}
+      function reset(yn) {
+        if (yn != "no") {
+         swal("Do you really want to reset?", "All progress will be lost.", "warning", {buttons: true,})
+        .then((reset) => {
+          if (reset) {
+            s = 0;
+            score = s;
+            power = 1;
+            p = power;
+            autoclickers = 0;
+            autoUpgrade = 50;
+            ac = autoclickers;
+            aU = autoUpgrade;
+            percent = 10/100;
+            AutoDucks = 1;
+            AMAD = 1000000;
+            music = 1;
+            dev = 'false';
+            max = 1000000;
+            theme = 1;
+            duckcoins = 0;
+            total = score;
+            notifications = 1;
+            dcCost = 20;
+            achScoreTotal = 1;
+            achAutoTotal = 1;
+            achAutoDucks = 2;
+            achievements = [];
+            achDis = "";
+            devAch = 0;
+            closeNav();
+            clear();
+          }
+        }) 
+        } else {
+          s = 0;
+            score = s;
+            power = 1;
+            p = power;
+            autoclickers = 0;
+            autoUpgrade = 50;
+            ac = autoclickers;
+            aU = autoUpgrade;
+            percent = 10/100;
+            AutoDucks = 1;
+            AMAD = 1000000;
+            music = 1;
+            dev = 'false';
+            max = 1000000;
+            theme = 1;
+            duckcoins = 0;
+            total = score;
+            notifications = 1;
+            dcCost = 20;
+            achScoreTotal = 1;
+            achAutoTotal = 1;
+            achAutoDucks = 2;
+            achievements = [];
+            achDis = "";
+            devAch = 0;
+            closeNav();
+            clear();
+        }
+      }
+      function notificationAlert() {
+        swal("DuckCoin notifications disabled", {icon: "success",});
+      }
+      function alert(x, y) {
+        swal(x, {icon: y})
+      }
+      function load() {
+        if (JSON.parse(localStorage.getItem("data")) != null) {
+          data = JSON.parse(localStorage.getItem("data"));
+          score = data[0];
+          power = data[1];
+          autoclickers = data[2];
+          autoUpgrade = data[3];
+          AutoDucks = data[4];
+          AMAD = data[5];
+          max = data[6];
+          duckcoins = data[7];
+          total = data[8];
+          dev = data[9];
+        }
+      if (JSON.parse(localStorage.getItem("ach")) != null) {
+        achievements = JSON.parse(localStorage.getItem("ach"));
+      }
+      }
+      function save() {
+        data = [score, power, autoclickers, autoUpgrade, AutoDucks, AMAD, max, duckcoins, total, dev];
+        localStorage.setItem("data", JSON.stringify(data));
+        localStorage.setItem("ach", JSON.stringify(achievements));
+      }
+      function clear() {
+        localStorage.clear();
+      }
+      function m(n, d) {
+        if (n < 1000000000000000000) {
+          x = ('' + n).length, p = Math.pow, d = p(10, d)
+        x-=x%3
+        return Math.round(n * d / p(10, x)) / d + " kMBTPE" [x / 3]
+        } else {
+          return n;
+        }
+      }
+      function checkIfBigger() {
+        if (score > 1000000000000000000000000000000000000000000000000000000000000) {
+          scoreDis = "Infinity";
+        } else if (score > 1000000000000000000000000000000000000000000000000000000000) {
+          scoreDis = "This is the end.";
+        } else if (score > 1000000000000000000000000000000000000000000000000000000) {
+          scoreDis = "Please stop";
+        } else if (score > 10000000000000000000000000000000000000000000000000000) {
+          scoreDis = "'Ducks Take Over World'";
+        } else if (score > 1000000000000000000000000000000000000000000000000000) {
+          scoreDis = "What's this?";
+        } else if (score > 1000000000000000000000000000000000000000000000000) {
+          scoreDis = "They're in my house!";
+        } else if (score > 1000000000000000000000000000000000000000000000) {
+          scoreDis = "This is over the top.";
+        } else if (score > 1000000000000000000000000000000000000000000) {
+          scoreDis = "Alright, that should be enough.";
+        } else if (score > 1000000000000000000000000000000000000000) {
+          scoreDis = "Infinite, I guess?";
+        } else if (score > 1000000000000000000000000000000000000) {
+          scoreDis = "How?";
+        } else if (score > 1000000000000000000000000000000000) {
+          scoreDis = "I can't believe it!";
+        } else if (score > 1000000000000000000000000000000) {
+          scoreDis = "Spectacular.";
+        } else if (score > 1000000000000000000000000000) {
+          scoreDis = "You are truly amazing";
+        } else if (score > 1000000000000000000000000) {
+          scoreDis = "Just incredible.";
+        } else if (score > 1000000000000000000000) {
+          scoreDis = "WOW.";
+        } else if (score > 1000000000000000000) {
+          scoreDis = "A really big number.";
+        }
+        setTimeout(checkIfBigger, 0);
+      }
+        </script>
+        <script>
+          if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/SW.js');
+        });
+      }
+        </script>
+  </body>
+</html>
